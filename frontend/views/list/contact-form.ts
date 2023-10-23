@@ -20,7 +20,7 @@ import { PastOrPresentWeekdayAndRequired } from "Frontend/util/validators";
 import { lang } from "Frontend/util/localization";
 import { statusSelectRenderer } from "./renderers";
 import { selectRenderer } from "@vaadin/select/lit";
-import "Frontend/components/live-currency-field.ts";
+import "Frontend/components/live-currency-field";
 import "@vaadin/number-field";
 import { checkAllowedFormat } from "Frontend/util/datepicker-util";
 import { loadingIndicator } from "Frontend/util/loading-indicator";

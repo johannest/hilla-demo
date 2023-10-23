@@ -2,8 +2,6 @@ package com.example.application.security;
 
 import java.util.Base64;
 
-import javax.crypto.spec.SecretKeySpec;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +16,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.crypto.spec.SecretKeySpec;
 
 @EnableWebSecurity
 @Configuration
@@ -35,6 +36,7 @@ public class SecurityConfig extends VaadinWebSecurity {
 
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         setStatelessAuthentication(http,
                 new SecretKeySpec(Base64.getDecoder().decode(appSecret), JwsAlgorithms.HS256),
                 "com.example.application");
@@ -44,11 +46,11 @@ public class SecurityConfig extends VaadinWebSecurity {
     @Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
-        web.ignoring().antMatchers("/images/*.png");
-        web.ignoring().antMatchers("/icons/*.png");
+        web.ignoring().requestMatchers(new AntPathRequestMatcher("/images/*.png"));
+        web.ignoring().requestMatchers(new AntPathRequestMatcher("/icons/*.png"));
         // Let our flag SVG icons be public so that login-view.ts can show
         // them before login. Icons are in resources/META-INF/resources folder
-        web.ignoring().antMatchers("/icons/*.svg");
+        web.ignoring().requestMatchers(new AntPathRequestMatcher("/icons/*.svg"));
     }
 
     @Bean
